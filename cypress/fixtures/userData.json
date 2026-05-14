@@ -1,4 +1,7 @@
 {
   "email": "customer@practicesoftwaretesting.com",
-  "password": "welcome01"
+  "password": "welcome01",
+  "newEmail": "newuser123@test.com",
+  "firstName": "John",
+  "lastName": "Doe"
 }
