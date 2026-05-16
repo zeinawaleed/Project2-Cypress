@@ -1,40 +1,90 @@
-const { Given, When, Then } = require("@badeball/cypress-cucumber-preprocessor");
-const ProductPage = require("../../pages/ProductPage");
-const productPage = new ProductPage();
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
-Given('user is on the home page', () => {
-    productPage.visitHomePage()
+Given('user is on homepage', () => {
+
+    cy.visit('https://practicesoftwaretesting.com/')
+
 })
 
-Given('user is on a product page', () => {
-    productPage.visitHomePage()
-    productPage.clickFirstProduct()
+When('user clicks on Thor Hammer product', () => {
+
+    cy.contains('Thor Hammer').click()
+
 })
 
-When('user clicks on a product', () => {
-    productPage.clickFirstProduct()
+Then('product details page should open', () => {
+
+    cy.url().should('include', 'product')
+
 })
 
-When('user searches for {string}', (productName) => {
-    productPage.searchProduct(productName)
+Given('user opens Thor Hammer product', () => {
+
+    cy.visit('https://practicesoftwaretesting.com/')
+
+    cy.contains('Thor Hammer').click()
+
 })
 
-When('user adds the product to cart', () => {
-    productPage.addToCart()
+Then('product name should be visible', () => {
+
+    cy.contains('Thor Hammer')
+
 })
 
-Then('user should see a list of products', () => {
-    productPage.getProductList().should('have.length.greaterThan', 0)
+Then('product price should be visible', () => {
+
+    cy.contains('$')
+
 })
 
-Then('user should see product details', () => {
-    productPage.getProductDetails().should('be.visible')
+When('user clicks add to cart button', () => {
+
+    cy.get('[data-test="add-to-cart"]').click()
+
 })
 
-Then('user should see search results', () => {
-    productPage.getSearchResults().should('have.length.greaterThan', 0)
+Then('product should be added successfully', () => {
+
+    cy.contains('Product added to shopping cart.')
+
 })
 
-Then('the cart should contain the product', () => {
-    productPage.getCartCount().should('contain', '1')
+
+
+Then('product image should be visible', () => {
+
+    cy.get('img').should('be.visible')
+
+})
+
+When('user increases product quantity', () => {
+
+    cy.get('#quantity').clear().type('2')
+
+})
+
+
+Then('add to cart button should be visible', () => {
+
+    cy.get('[data-test="add-to-cart"]').should('be.visible')
+
+})
+
+When('user clicks browser back button', () => {
+
+    cy.go('back')
+
+})
+
+Then('homepage should appear', () => {
+
+    cy.url().should('eq', 'https://practicesoftwaretesting.com/')
+
+})
+
+Then('URL should contain product', () => {
+
+    cy.url().should('include', 'product')
+
 })

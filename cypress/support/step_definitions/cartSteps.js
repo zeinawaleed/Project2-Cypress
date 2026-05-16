@@ -1,38 +1,41 @@
-const { Given, When, Then } = require("@badeball/cypress-cucumber-preprocessor");
-const ProductPage = require("../../pages/ProductPage");
-const CartPage = require("../../pages/CartPage");
-const productPage = new ProductPage();
-const cartPage = new CartPage();
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
-Given('user has a product in the cart', () => {
-    productPage.visitHomePage()
-    productPage.clickFirstProduct()
-    productPage.addToCart()
-    cartPage.openCart()
+Given('user opens product page', () => {
+
+    cy.visit('https://practicesoftwaretesting.com/')
+
+    cy.contains('Thor Hammer').click()
+
 })
 
-Given('user has items in the cart', () => {
-    productPage.visitHomePage()
-    productPage.clickFirstProduct()
-    productPage.addToCart()
+When('user adds product to cart', () => {
+
+    cy.get('[data-test="add-to-cart"]').click()
+
 })
 
-When('user removes the product from cart', () => {
-    cartPage.removeItem()
+Then('product should be added successfully', () => {
+
+    cy.contains('Product added to shopping cart.')
+
 })
 
-When('user updates the quantity to {int}', (quantity) => {
-    cartPage.updateQuantity(quantity)
+Then('cart icon should be visible', () => {
+
+    cy.get('[data-test="nav-cart"]').should('be.visible')
+
 })
 
-When('user proceeds to checkout', () => {
-    cartPage.proceedToCheckout()
+Given('user clicks cart button', () => {
+
+    cy.visit('https://practicesoftwaretesting.com/')
+
+    cy.get('[data-test="nav-cart"]').click()
+
 })
 
-Then('the cart should be empty', () => {
-    cartPage.getEmptyCartMessage().should('be.visible')
-})
+Then('cart page should open', () => {
 
-Then('the cart should show quantity {int}', (quantity) => {
-    cartPage.getQuantity().should('have.value', quantity)
+    cy.url().should('include', 'checkout')
+
 })
